@@ -49,3 +49,24 @@ or
 def risingedge(x: Bool) = x && !RegNext(x)
 ```
 5. Chat must support both immediate and deffered implication operators.
+
+## Installation
+1. Install JDK 8
+```Shell
+  sudo apt-get install default-jdk
+  ```  
+2. Test JDK 8 installation. Make sure you have version 1.8
+```Shell
+  java -version 
+```  
+3. Install [SBT](https://www.scala-sbt.org/release/docs/Installing-sbt-on-Linux.html)
+```Shell
+  echo "deb https://dl.bintray.com/sbt/debian /" | sudo tee -a /etc/apt/sources.list.d/sbt.list
+  sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 642AC823
+  sudo apt-get update
+  sudo apt-get install sbt
+```  
+4. Run Hello World from the CHAT root directory
+```Shell
+  sbt 'testOnly chat.HelloSpec'
+```
