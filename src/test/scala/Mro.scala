@@ -16,7 +16,6 @@ abstract trait Common extends Bundle {
 
   // Redefine this in derived classes
   type Bus 
-  //def link (a:Bus, b:Bus)
 }
 
 trait Foo extends Common {
@@ -51,10 +50,10 @@ class Mro extends Module {
  val io = IO(new Bundle {})
  val mod1 = Module(new MyBBoxA)
  val mod2 = Module(new MyBBoxB)
- mod1.io <> mod2.io // <-- doesn't work in Chisel3 semantics
+ mod1.io <> mod2.io // <-- now compiles
  // Non-DRY code, want to avoid
- mod1.io.c0 <> mod2.io.c0
- mod1.io.c1 <> mod2.io.c1
+ //mod1.io.c0 <> mod2.io.c0
+ //mod1.io.c1 <> mod2.io.c1
 }
 
 class MroTest (c: Mro) extends PeekPokeTester (c) {}
@@ -63,7 +62,8 @@ class MroSpec extends FlatSpec with Matchers {
   behavior of "Mro Test"  
 
   it should "Pass basic assertion" in {
-    chisel3.iotesters.Driver(() => new Mro) { c=> 
+    //chisel3.iotesters.Driver(() => new Mro) { c=> 
+    chisel3.iotesters.Driver.execute( Array("--backend-name", "verilator"), () => new Mro) { c=> 
       new MroTest(c)
     } should be (true)
   }
